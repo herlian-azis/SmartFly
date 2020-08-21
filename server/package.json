@@ -2,13 +2,18 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "nightmare": "^3.0.2"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "SmartFly",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.1"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
