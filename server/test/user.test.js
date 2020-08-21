@@ -54,24 +54,6 @@ describe('Test Route POST/ login', () => {
 })
 
 
-describe('Test Route POST/ googleSignIn', () => {
-  test('response(200) success login - return accessToken', (done) => {
-      request(app)
-        .post('/googleSignIn')
-        .set('Accept', 'application/json')
-        .then((response)=>{
-          const { body, status } = response
-          expect(status).toBe(200)
-          expect(body).toHaveProperty("accessToken")
-          done()
-        })
-        .catch((err)=>{
-          done(err)
-        })
-      })
-})
-
-
 describe('Test Route POST /register', () => {
   test('response(200) success register - return userData', (done) => {
     const dataUser = { email:"abcde@gmail.com",password: "abcde", username:"qwoieuqwi"}
