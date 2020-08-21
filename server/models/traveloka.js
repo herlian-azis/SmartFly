@@ -1,10 +1,11 @@
+const converToNumber = require('../helpers/convertPrice')
 const Nightmare = require('nightmare')
 const nightmare = Nightmare({ show: false })
 const cheerio = require('cheerio')
 
 const url = 'https://www.traveloka.com/en-id/flight/onewaysearch?ap=JKTA.SUB&dt=27-08-2020.NA&ps=1.0.0&sc=ECONOMY'
-let airline, price
-let dataJson = { airline: "", price: "" }
+let airline, price, airLineLogo, departureTime, arrivalTime
+let dataJson = { airline: "", price: null, departureTime: "", arrivalTime: "", airLineLogo:""}
 let result = []
 
 const getData = html => {
@@ -14,10 +15,28 @@ const getData = html => {
       .find('._3gn1_')
       .children('._1KrnW').text()
     dataJson.airline = airline
+
+    airLineLogo = $(item)
+      .find('._2HE-b img').attr('src')
+    dataJson.airLineLogo = airLineLogo
+
+    departureTime = $(item)
+      .find('._32ZNg')
+      .children('._1KrnW').first().text()
+    dataJson.departureTime = departureTime
+
+    arrivalTime = $(item)
+      .find('._1BA8z')
+      .children('._32ZNg')
+      .children('.jjGhl').last().text()
+    dataJson.arrivalTime = arrivalTime
+
     price = $(item)
       .find('._27kIL').first().text()
+    price = converToNumber(price)
     dataJson.price = price
-    result.push({ airline, price })
+
+    result.push({ airline, departureTime, arrivalTime, price, airLineLogo })
   })
 }
 
@@ -32,7 +51,6 @@ class Traveloka {
         )
         .end()
         .then((res) => {
-          console.log(res, 'ini result')
           getData(res)
         })
         .catch((err) => {

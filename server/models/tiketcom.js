@@ -1,11 +1,11 @@
+const converToNumber = require('../helpers/convertPrice')
 const Nightmare = require('nightmare');
 const nightmare = Nightmare({ show: false })
 const cheerio = require('cheerio')
-const url = 'https://www.tiket.com/pesawat/search?d=SUBC&a=JKTC&dType=CITY&aType=CITY&date=2020-08-22&adult=1&child=0&infant=0&class=economy'
-const fs = require('fs');
+const url = 'https://www.tiket.com/pesawat/search?d=SUBC&a=JKTC&dType=CITY&aType=CITY&date=2020-08-24&adult=1&child=0&infant=0&class=economy'
 
-let airline, price
-let dataJson = { airline: "", price: "" }
+let airline, price, airLineLogo, departureTime, arrivalTime
+let dataJson = { airline: "", price: null, departureTime: "", arrivalTime: "", airLineLogo: "" }
 let result = []
 
 const getData = html => {
@@ -14,11 +14,26 @@ const getData = html => {
     airline = $(item)
       .find('.text-marketing-airline').text()
     dataJson.airline = airline
+
+    departureTime = $(item)
+      .find('.text-time').first().text()
+    dataJson.departureTime = departureTime
+
+    arrivalTime = $(item)
+      .find('.text-time').last().text()
+    dataJson.arrivalTime = arrivalTime
+
+    airLineLogo = $(item)
+      .find('.logo-airline img').attr('src')
+    dataJson.airLineLogo = airLineLogo
+
     price = $(item)
       .find('.text-price').text()
+    price = converToNumber(price)
     dataJson.price = price
-    // console.log(i + 1, airline, price)
-    result.push({ airline, price })
+
+
+    result.push({ airline, departureTime, arrivalTime, price, airLineLogo })
   })
 }
 

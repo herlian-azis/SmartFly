@@ -7,8 +7,11 @@ class FlightController {
   static async getFlightData(req, res) {
     try {
       const resTraveloka = await Traveloka.getTraveloka()
+      console.log('Traveloka')
       const resTiketCom = await TiketCom.getTiketCom()
+      console.log('Tiket')
       const resPegiPegi = await PegiPegi.getPegipegi()
+      console.log('Pegipegi')
       const AllData = {
         Traveloka: resTraveloka,
         Tiket: resTiketCom,
@@ -20,23 +23,6 @@ class FlightController {
     }
   }
 
-  // static async getDataTiketCom (req, res) {
-  //   try {
-  //     const response = await TiketCom.getTiketCom()
-  //     res.send(response)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // static async getPegipegi(req, res) {
-  //   try {
-  //     const response = await PegiPegi.getPegipegi()
-  //     res.send(response)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 }
 
 module.exports = FlightController
