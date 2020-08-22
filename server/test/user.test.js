@@ -12,7 +12,7 @@ describe('Test Route POST/ login', () => {
         .then((response)=>{
           const { body, status } = response
           expect(status).toBe(200)
-          expect(body).toHaveProperty("accessToken")
+          expect(body).toHaveProperty("access_token")
           done()
         })
         .catch((err)=>{
@@ -44,7 +44,7 @@ describe('Test Route POST/ login', () => {
         .then((response)=>{
           const { body, status } = response
           expect(status).toBe(400)
-          expect(body).toHaveProperty("message",'Password incorrect')
+          expect(body).toHaveProperty("message",'Password Incorrect')
           done()
         })
         .catch((err)=>{
@@ -56,7 +56,7 @@ describe('Test Route POST/ login', () => {
 
 describe('Test Route POST /register', () => {
   test('response(200) success register - return userData', (done) => {
-    const dataUser = { email:"abcde@gmail.com",password: "abcde", username:"qwoieuqwi"}
+    const dataUser = { email:"abcde@gmail.com",password: "abcde", userName:"qwoieuqwi", subsStatus:false}
     request(app)
       .post('/register')
       .send(dataUser)
@@ -72,7 +72,7 @@ describe('Test Route POST /register', () => {
       })
   })
   test('response(400) failed register - Email Empty', (done)=>{
-    const dataUser = { email:"",password: "abcde"}
+    const dataUser = { email:"",password: "abcde", userName:"qwoieuqwi", subsStatus:false}
     request(app)
       .post('/register')
       .send(dataUser)
