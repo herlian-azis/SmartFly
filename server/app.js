@@ -1,14 +1,62 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
-// const routes = require('./routes')
+const SearchModel = require("./models/search")
+const spawn = require("child_process").spawn
+const PredictionController = require("./controller/predictioncontroller")
+const routes = require('./routes')
 
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 
-// app.use(routes)
+app.get("/pricePrediction/:departure/:arrival", (req,res) => {
+  let departure = req.params.departure.toLowerCase()
+  let arrival = req.params.arrival.toLowerCase()
+  SearchModel.findAll()
+    .then((data) => {
+      if(data.length === 0){
+        res.status(404).json({message:"No Data Yet"})
+      }
+      else{
+        let filteredData = data.filter((item) => item.departure.toLowerCase() === departure && item.arrival.toLowerCase() === arrival)
+        if(fileredData.length < 5){
+          res.status(400).json({message:"Not Enough Data Yet"})
+        }
+        else{
+          let data2 = []
+          let count = 1
+          for(let i = 1; i < filteredData.length; i++){
+            if(filteredData[i].date == filteredData[i-1].date){
+              count += 1
+              if(i === filteredData.length -1){
+                data2.push(count)
+              }
+            }
+            else{
+              data2.push(count)
+              count = 1
+            }
+          }
+          let data1 = Array.from(Array(data2.length),(_, index) => index + 1)
+          const dataX = JSON.stringify(data1)
+          const dataY = JSON.stringify(data2)
+          var process = spawn('python3',["./helpers/machineLearning.py",dataX,dataY])
+          process.stdout.on('data', function(data) {
+            console.log(data.toString())
+            res.send(data.toString());
+          })
+        }
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({message:"Internal Server Error"})
+    })
+})
 
+app.use(routes)
 
-module.exports = app
+app.listen(port,() => {
+  console.log(`App listening to port ${port}`)
+})
