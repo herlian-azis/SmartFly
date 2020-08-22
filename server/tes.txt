@@ -1,0 +1,2 @@
+1. buat fungsi unsubscribe ganti substatus false
+2. buat implementasi cron background, with every substatus true  
