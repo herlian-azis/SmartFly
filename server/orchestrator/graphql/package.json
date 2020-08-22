@@ -1,14 +1,18 @@
 {
-  "name": "server",
+  "name": "orchestrator",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "SmartFly",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "apollo-server": "^2.16.1",
+    "axios": "^0.20.0",
+    "graphql": "^15.3.0",
+    "ioredis": "^4.17.3"
   }
 }
