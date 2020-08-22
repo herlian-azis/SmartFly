@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasOne(models.Subsription);
     }
   }
   User.init(
@@ -36,7 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       hooks: {
         beforeCreate: (user) => {
-          console.log(user, "DI MODEL");
           if (!user.userName) {
             user.userName = user.email;
           }

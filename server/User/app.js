@@ -3,13 +3,17 @@ const express = require("express");
 const cors = require("cors");
 const router = require("./routes");
 const errorHandler = require("./middleware/errorHandler");
+// const UserController = require("./controller/UserController");
 
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Cron get promotion
+// app.get(UserController.getPromotion());
 
 app.use(router);
 

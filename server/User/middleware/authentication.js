@@ -11,13 +11,17 @@ const authentication = (req, res, next) => {
     } else {
       const userData = jwt.verify(access_token, secret);
       req.userData = userData;
-      User.findOne({ where: { email: userData.email } }).then((user) => {
-        if (user) {
+      User.findOne({ where: { email: userData.email } })
+        .then((user) => {
+          if (user) {
+            next();
+          } else {
+            next({ name: "NOT_LOGGED_IN" });
+          }
+        })
+        .catch((err) => {
           next();
-        } else {
-          next({ name: "NOT_LOGGED_IN" });
-        }
-      });
+        });
     }
   } catch (error) {
     next(error);
