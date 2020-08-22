@@ -44,7 +44,6 @@ app.get("/pricePrediction/:departure/:arrival", (req,res) => {
           const dataY = JSON.stringify(data2)
           var process = spawn('python3',["./helpers/machineLearning.py",dataX,dataY])
           process.stdout.on('data', function(data) {
-            console.log(data.toString())
             res.send(data.toString());
           })
         }
